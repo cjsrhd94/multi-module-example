@@ -3,8 +3,6 @@ plugins {
     id 'org.springframework.boot' version '3.1.1'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'org.asciidoctor.jvm.convert' version '3.3.2'
-    // querydsl
-    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
 }
 
 subprojects {
@@ -14,7 +12,6 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
-	apply plugin: 'com.ewerk.gradle.plugins.querydsl'
     apply plugin: 'org.asciidoctor.jvm.convert'
 
     java {
@@ -36,22 +33,6 @@ subprojects {
     }
 
     dependencies {
-        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-        implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-        implementation 'org.springframework.boot:spring-boot-starter-security'
-        implementation 'org.springframework.boot:spring-boot-starter-web'
-        compileOnly 'org.projectlombok:lombok'
-        runtimeOnly 'com.h2database:h2'
-        runtimeOnly 'com.mysql:mysql-connector-j'
-        annotationProcessor 'org.projectlombok:lombok'
-
-        // querydsl
-        implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-        annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
-
-        testImplementation 'org.springframework.boot:spring-boot-starter-test'
-        testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-        testImplementation 'org.springframework.security:spring-security-test'
     }
 
     tasks.named('test') {
@@ -62,26 +43,6 @@ subprojects {
     tasks.named('asciidoctor') {
         inputs.dir snippetsDir
         dependsOn test
-    }
-
-	// querydsl
-    def querydslDir = "$buildDir/generated/querydsl"
-
-    querydsl {
-        jpa = true
-        querydslSourcesDir = querydslDir
-    }
-
-    sourceSets {
-        main.java.srcDir querydslDir
-    }
-
-    configurations {
-        querydsl.extendsFrom compileClasspath
-    }
-
-    compileQuerydsl {
-        options.annotationProcessorPath = configurations.querydsl
     }
 }
 
