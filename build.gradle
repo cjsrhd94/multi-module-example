@@ -87,9 +87,9 @@ subprojects {
 
 
 // multi-module setting
-project(':core-module') {
+project(':admin-module') {
     dependencies {
-        implementation project(':common-module')
+        implementation project(':core-module')
     }
 }
 
@@ -99,14 +99,14 @@ project(':api-module') {
     }
 }
 
-project(':admin-module') {
+project(':batch-module') {
     dependencies {
         implementation project(':core-module')
     }
 }
 
-project(':batch-module') {
+project(':core-module') {
     dependencies {
-        implementation project(':core-module')
+        implementation project(':common-module')
     }
 }

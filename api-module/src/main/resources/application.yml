@@ -1,0 +1,22 @@
+server:
+  port: 8080
+
+spring:
+  confing:
+    import:
+      - classpath:/application-core.yml
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+---
+spring:
+  config:
+    activate:
+      on-profile: dev
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
