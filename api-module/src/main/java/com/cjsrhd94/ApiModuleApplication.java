@@ -1,13 +1,11 @@
-package com.multimodule.demo;
+package com.cjsrhd94;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class DemoApplication {
-
+public class ApiModuleApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		SpringApplication.run(ApiModuleApplication.class, args);
 	}
-
 }

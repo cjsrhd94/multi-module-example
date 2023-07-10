@@ -5,47 +5,79 @@ plugins {
 	id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
-group = 'com.multi-module'
-version = '0.0.1-SNAPSHOT'
+subprojects {
+	group = 'com.multi-module'
+	version = '0.0.1-SNAPSHOT'
 
-java {
-	sourceCompatibility = '17'
-}
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+	apply plugin: 'org.asciidoctor.jvm.convert'
 
-configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
+	java {
+		sourceCompatibility = '17'
+	}
+
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+	}
+
+	repositories {
+		mavenCentral()
+	}
+
+	ext {
+		set('snippetsDir', file("build/generated-snippets"))
+	}
+
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+		implementation 'org.springframework.boot:spring-boot-starter-security'
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		compileOnly 'org.projectlombok:lombok'
+		runtimeOnly 'com.h2database:h2'
+		runtimeOnly 'com.mysql:mysql-connector-j'
+		annotationProcessor 'org.projectlombok:lombok'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+		testImplementation 'org.springframework.security:spring-security-test'
+	}
+
+	tasks.named('test') {
+		outputs.dir snippetsDir
+		useJUnitPlatform()
+	}
+
+	tasks.named('asciidoctor') {
+		inputs.dir snippetsDir
+		dependsOn test
 	}
 }
 
-repositories {
-	mavenCentral()
+// multi-module setting
+project(':core-module') {
+	dependencies {
+		implementation project(':common-module')
+	}
 }
 
-ext {
-	set('snippetsDir', file("build/generated-snippets"))
+project(':api-module') {
+	dependencies {
+		implementation project(':core-module')
+	}
 }
 
-dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.h2database:h2'
-	runtimeOnly 'com.mysql:mysql-connector-j'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
-	testImplementation 'org.springframework.security:spring-security-test'
+project(':admin-module') {
+	dependencies {
+		implementation project(':core-module')
+	}
 }
 
-tasks.named('test') {
-	outputs.dir snippetsDir
-	useJUnitPlatform()
-}
-
-tasks.named('asciidoctor') {
-	inputs.dir snippetsDir
-	dependsOn test
+project(':batch-module') {
+	dependencies {
+		implementation project(':core-module')
+	}
 }
