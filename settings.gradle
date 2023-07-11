@@ -1,4 +1,4 @@
-rootProject.name = 'demo'
+rootProject.name = 'multi-module'
 include 'admin-module'
 include 'api-module'
 include 'batch-module'
