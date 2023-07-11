@@ -4,7 +4,7 @@ server:
 spring:
   confing:
     import:
-      - classpath:/application-core.yml
+      - classpath:/application-db.yml
 ---
 spring:
   config:

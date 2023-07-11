@@ -1,10 +1,9 @@
 server:
   port: 8080
-
 spring:
-  confing:
+  config:
     import:
-      - classpath:/application-core.yml
+      - classpath:/application-db.yml
 ---
 spring:
   config:
