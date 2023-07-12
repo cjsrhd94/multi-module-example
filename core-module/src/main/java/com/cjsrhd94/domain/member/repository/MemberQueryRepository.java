@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class MemberQuery {
+public class MemberQueryRepository {
 	private final JPAQueryFactory queryFactory;
 
 	public Member findByMemberId(Long id) {
